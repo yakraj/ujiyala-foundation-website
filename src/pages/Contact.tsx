@@ -23,7 +23,7 @@ const Contact = () => (
       <div className="text-center text-gray-600">
         <div className="font-bold text-lg mb-1">Address</div>
         <div>lonarwadi, sinnar, nashik</div>
-        <div className="mt-2">Email: <a href="mailto:info@ujiyala.org" className="text-primary">info@ujiyala.org</a></div>
+        <div className="mt-2">Email: <a href="mailto:info@ujiyalafoundation.org" className="text-primary">info@ujiyalafoundation.org</a></div>
         <div>Phone: <a href="tel:+12345678900" className="text-primary">+1 234 567 8900</a></div>
       </div>
     </div>

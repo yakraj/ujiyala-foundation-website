@@ -8,6 +8,8 @@ import About from './pages/About';
 import Causes from './pages/Causes';
 import Contact from './pages/Contact';
 import Donate from './pages/Donate';
+import Gallery from './pages/Gallery';
+import Works from './pages/Works';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
             <Route path="/causes" element={<Causes />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donate />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/works" element={<Works />} />
           </Routes>
         </main>
         <Footer />

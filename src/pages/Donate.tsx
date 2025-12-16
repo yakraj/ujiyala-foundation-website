@@ -2,10 +2,19 @@ import { useState } from 'react';
 
 const presetAmounts = [500, 1000, 1500];
 
+
+const initialDonors = [
+  { name: 'John Doe', amount: 500, date: '2025-12-15T10:30:00' },
+  { name: 'Priya Sharma', amount: 1500, date: '2025-12-15T09:10:00' },
+  { name: 'Amit Patel', amount: 1000, date: '2025-12-14T18:45:00' },
+  { name: 'Anonymous', amount: 200, date: '2025-12-14T15:20:00' },
+];
+
 const Donate = () => {
   const [amount, setAmount] = useState<number | ''>('');
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [donors, setDonors] = useState(initialDonors);
 
   const handleAmount = (val: number) => setAmount(val);
   const handleCustom = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +31,14 @@ const Donate = () => {
   const handlePay = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you would integrate payment gateway
+    setDonors([
+      {
+        name: form.name || 'Anonymous',
+        amount: amount || 0,
+        date: new Date().toISOString(),
+      },
+      ...donors,
+    ]);
     alert('Thank you for your support!');
     setShowModal(false);
     setAmount('');
@@ -65,6 +82,22 @@ const Donate = () => {
             Donate Now
           </button>
         </form>
+      </div>
+
+      {/* Recent Donors */}
+      <div className="w-full max-w-xl mt-12">
+        <h2 className="text-2xl font-bold text-secondary mb-4">Recent Donors</h2>
+        <ul className="divide-y divide-gray-200 bg-white rounded-xl shadow overflow-hidden">
+          {donors.slice(0, 6).map((donor, idx) => (
+            <li key={idx} className="flex items-center justify-between px-6 py-4">
+              <div>
+                <div className="font-semibold text-gray-800">{donor.name}</div>
+                <div className="text-xs text-gray-500">{new Date(donor.date).toLocaleString()}</div>
+              </div>
+              <div className="text-lg font-bold text-primary">₹{donor.amount}</div>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* Modal */}
