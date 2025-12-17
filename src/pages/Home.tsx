@@ -1,6 +1,8 @@
 import HeroCarousel from '../components/HeroCarousel';
 import StatsSection from '../components/StatsSection';
 import CausesSection from '../components/CausesSection';
+import MapTargetSection from '../components/MapTargetSection';
+import FoundersSection from '../components/FoundersSection';
 
 const Home = () => {
   return (
@@ -8,7 +10,8 @@ const Home = () => {
       <HeroCarousel />
       <StatsSection />
       <CausesSection />
-      
+      <MapTargetSection />
+      <FoundersSection />
       {/* Mission Statement / About Snippet */}
       <div className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

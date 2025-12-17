@@ -23,8 +23,8 @@ const Transitions = () => {
   const totalExpenses = expensesData.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-4">Financial Transparency</h1>
           <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
@@ -85,7 +85,7 @@ const Transitions = () => {
           </div>
 
           {/* Table Content */}
-          <div className="overflow-x-auto">
+          <div className="transparency-table-wrapper">
             {activeTab === 'donations' ? (
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">

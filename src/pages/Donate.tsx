@@ -46,13 +46,13 @@ const Donate = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 flex flex-col items-center">
-      <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-8">
+    <div className="min-h-screen bg-gray-50 py-8 flex flex-col items-center">
+      <div className="donate-form-section w-full max-w-xl bg-white rounded-xl shadow-lg p-8 sm:p-6 mx-2">
         <h1 className="text-4xl font-extrabold text-primary mb-8 text-center">Support Ujiyala Foundation</h1>
         <form onSubmit={handleDonate} className="space-y-8">
           <div>
             <label className="block text-lg font-bold text-gray-700 mb-4">Select Amount</label>
-            <div className="flex gap-4 mb-4">
+            <div className="flex flex-wrap gap-4 mb-4">
               {presetAmounts.map((amt) => (
                 <button
                   type="button"
@@ -60,7 +60,7 @@ const Donate = () => {
                   className={`px-6 py-3 rounded-lg font-bold border-2 transition-all text-lg ${amount === amt ? 'bg-primary text-white border-primary scale-105' : 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-primary hover:text-white hover:border-primary'}`}
                   onClick={() => handleAmount(amt)}
                 >
-                  ₹{amt}
+                  	{amt}
                 </button>
               ))}
               <input
@@ -85,7 +85,7 @@ const Donate = () => {
       </div>
 
       {/* Recent Donors */}
-      <div className="w-full max-w-xl mt-12">
+      <div className="donate-recent-donors w-full max-w-xl mt-12 mx-2">
         <h2 className="text-2xl font-bold text-secondary mb-4">Recent Donors</h2>
         <ul className="divide-y divide-gray-200 bg-white rounded-xl shadow overflow-hidden">
           {donors.slice(0, 6).map((donor, idx) => (
@@ -94,7 +94,7 @@ const Donate = () => {
                 <div className="font-semibold text-gray-800">{donor.name}</div>
                 <div className="text-xs text-gray-500">{new Date(donor.date).toLocaleString()}</div>
               </div>
-              <div className="text-lg font-bold text-primary">₹{donor.amount}</div>
+              <div className="text-lg font-bold text-primary">	{donor.amount}</div>
             </li>
           ))}
         </ul>
@@ -102,8 +102,8 @@ const Donate = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg relative animate-fade-in-up">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-2">
+          <div className="donate-modal bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg relative animate-fade-in-up mx-2">
             <button className="absolute top-4 right-4 text-gray-400 hover:text-primary text-2xl" onClick={() => setShowModal(false)}>&times;</button>
             <h2 className="text-2xl font-bold text-primary mb-4 text-center">Enter Your Details</h2>
             <form onSubmit={handlePay} className="space-y-6">
@@ -123,9 +123,9 @@ const Donate = () => {
                 <label className="block text-gray-700 font-bold mb-2">Message (optional)</label>
                 <textarea name="message" value={form.message} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary" rows={3} />
               </div>
-              <div className="flex items-center justify-between mt-6">
-                <div className="text-lg font-bold text-gray-700">Amount: <span className="text-primary">₹{amount}</span></div>
-                <button type="submit" className="bg-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-red-700 transition-all text-lg shadow-lg">Pay</button>
+              <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+                <div className="text-lg font-bold text-gray-700">Amount: <span className="text-primary">	{amount}</span></div>
+                <button type="submit" className="bg-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-red-700 transition-all text-lg shadow-lg w-full sm:w-auto">Pay</button>
               </div>
             </form>
           </div>
