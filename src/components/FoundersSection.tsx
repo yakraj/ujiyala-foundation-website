@@ -50,21 +50,18 @@ const FoundersSection = () => {
     <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-primary mb-10 text-center">Initial Founders</h2>
-        <div className="relative w-full max-w-md mx-auto" style={{height: '100vh'}}>
-          <div className="overflow-y-auto h-full">
-            {founders.map((founder, idx) => (
-              <div
-                key={idx}
-                className="bg-gray-50 rounded-xl shadow-lg p-6 flex flex-col items-center justify-center mb-6"
-                style={{height: 'calc(100vh / 7)', minHeight: '1vh', maxHeight: 'calc(100vh / 7)'}}
-              >
-                <img src={founder.img} alt={founder.name} className="w-20 h-20 rounded-full object-cover mb-2 border-4 border-primary" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">{founder.name}</h3>
-                <p className="text-primary font-bold mb-1 text-sm">{founder.role}</p>
-                <p className="text-gray-600 text-center text-xs">{founder.bio}</p>
-              </div>
-            ))}
-          </div>
+        <div className="flex flex-wrap justify-center gap-8">
+          {founders.map((founder, idx) => (
+            <div
+              key={idx}
+              className="bg-gray-50 rounded-xl shadow-lg p-6 flex flex-col items-center justify-center w-64"
+            >
+              <img src={founder.img} alt={founder.name} className="w-20 h-20 rounded-full object-cover mb-2 border-4 border-primary" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">{founder.name}</h3>
+              <p className="text-primary font-bold mb-1 text-sm">{founder.role}</p>
+              <p className="text-gray-600 text-center text-xs">{founder.bio}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ const MapTargetSection = () => {
             {/* Simple embedded map (replace src with your actual target area) */}
             <iframe
               title="Ujiyala Foundation Target Map"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=77.2090%2C28.6139%2C77.3090%2C28.7139&amp;layer=mapnik"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=73.981994%2C19.836162%2C74.011994%2C19.856162&layer=mapnik&marker=19.84505%2C73.998661"
               className="w-full h-64 md:h-80 rounded-lg border shadow"
               allowFullScreen
               loading="lazy"

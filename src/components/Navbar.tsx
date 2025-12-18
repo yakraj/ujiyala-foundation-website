@@ -7,28 +7,12 @@ import logo from '../assets/logo.png';
 // Multi-level nav structure
 const navItems = [
   { label: 'Home', to: '/' },
-  { label: 'About Us', to: '/about' },
-  { label: 'Our Causes', to: '/causes',
-    subItems: [
-      { label: 'Education', to: '/causes#education' },
-      { label: 'Health', to: '/causes#health' },
-      { label: 'Women Empowerment', to: '/causes#women' },
-      { label: 'Child Welfare', to: '/causes#child' },
-    ]
-  },
-  { label: 'Transitions', to: '/transitions' },
-  {
-    label: 'Our Works',
-    to: '/works',
-    subItems: [
-      { label: 'Gallery', to: '/gallery' },
-      { label: 'Projects', to: '/works#projects' },
-      { label: 'Fields', to: '/works#fields' },
-      { label: 'Volunteer', to: '/works#volunteer' },
-      { label: 'Media Center', to: '/media' },
-      { label: 'Careers', to: '/careers' },
-    ]
-  },
+  { label: 'About', to: '/about' },
+  { label: 'Causes', to: '/causes' },
+  { label: 'Works', to: '/works' },
+  { label: 'Gallery', to: '/gallery' },
+  { label: 'Volunteer', to: '/volunteer' },
+  { label: 'Donate', to: '/donate' },
   { label: 'Contact', to: '/contact' },
 ];
 
@@ -102,54 +86,14 @@ const Navbar = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-2">
               {navItems.map((item) => (
-                <div
+                <Link
                   key={item.label}
-                  className="relative group"
-                  onMouseEnter={() => item.subItems && handleMenuEnter(item.label)}
-                  onMouseLeave={() => item.subItems && handleMenuLeave()}
+                  to={item.to}
+                  className={`px-3 py-2 rounded-md font-semibold text-base uppercase tracking-wide transition-colors ${isActive(item, location.pathname) ? 'text-primary' : 'text-gray-700 hover:text-primary'} ${item.label === 'Donate' ? 'bg-primary text-white ml-2 px-6 py-3 rounded-full font-bold hover:bg-red-700 shadow-md flex items-center' : ''} ${item.label === 'Volunteer' ? 'border border-primary text-primary hover:bg-primary hover:text-white font-bold' : ''}`}
                 >
-                  {item.subItems ? (
-                    <>
-                      <button
-                        className={`flex items-center px-3 py-2 rounded-md font-semibold text-base uppercase tracking-wide transition-colors focus:outline-none ${isActive(item, location.pathname) ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
-                        type="button"
-                        aria-haspopup="true"
-                        aria-expanded={openMenu === item.label}
-                      >
-                        {item.label} <ChevronDown className="w-4 h-4 ml-1" />
-                      </button>
-                      {/* Submenu */}
-                      <div
-                        className={`absolute left-0 mt-2 min-w-[180px] bg-white rounded-md shadow-lg py-2 z-50 transition-all ${openMenu === item.label ? 'block' : 'hidden'}`}
-                        onMouseEnter={() => handleMenuEnter(item.label)}
-                        onMouseLeave={handleMenuLeave}
-                      >
-                        {item.subItems.map((sub) => (
-                          <Link
-                            key={sub.to}
-                            to={sub.to}
-                            className={`block px-4 py-2 text-base font-semibold rounded-md transition-colors ${location.pathname === sub.to ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
-                            onClick={() => setOpenMenu(null)}
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <Link
-                      to={item.to}
-                      className={`px-3 py-2 rounded-md font-semibold text-base uppercase tracking-wide transition-colors ${isActive(item, location.pathname) ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </div>
+                  {item.label === 'Donate' ? (<><Heart className="w-5 h-5 mr-2 fill-current" />DONATE</>) : item.label}
+                </Link>
               ))}
-              <Link to="/donate" className="bg-primary text-white px-6 py-3 rounded-full font-bold hover:bg-red-700 transition-all transform hover:scale-105 shadow-md flex items-center ml-2">
-                <Heart className="w-5 h-5 mr-2 fill-current" />
-                DONATE
-              </Link>
             </div>
 
             {/* Mobile menu button */}
@@ -169,47 +113,15 @@ const Navbar = () => {
           <div className="md:hidden bg-white border-t">
             <div className="px-4 pt-2 pb-6 space-y-2">
               {navItems.map((item) => (
-                <div key={item.label}>
-                  {item.subItems ? (
-                    <>
-                      <button
-                        className={`flex items-center w-full px-3 py-3 rounded-md font-bold text-base uppercase transition-colors ${isActive(item, location.pathname) ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
-                        onClick={() => handleMobileMenuToggle(item.label)}
-                        type="button"
-                        aria-haspopup="true"
-                        aria-expanded={mobileOpenMenu === item.label}
-                      >
-                        {item.label} <ChevronRight className="w-4 h-4 ml-1" />
-                      </button>
-                      {mobileOpenMenu === item.label && (
-                        <div className="ml-4 mt-1 space-y-1">
-                          {item.subItems.map((sub) => (
-                            <Link
-                              key={sub.to}
-                              to={sub.to}
-                              className={`block px-4 py-2 text-base font-semibold rounded-md transition-colors ${location.pathname === sub.to ? 'text-primary' : 'text-gray-700 hover:text-primary'}`}
-                              onClick={() => { setIsOpen(false); setMobileOpenMenu(null); }}
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <Link
-                      to={item.to}
-                      className={`block text-gray-700 hover:text-primary hover:bg-gray-50 px-3 py-3 rounded-md text-base font-bold uppercase ${isActive(item, location.pathname) ? 'text-primary' : ''}`}
-                      onClick={handleNavClick}
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </div>
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  className={`block text-gray-700 hover:text-primary hover:bg-gray-50 px-3 py-3 rounded-md text-base font-bold uppercase ${isActive(item, location.pathname) ? 'text-primary' : ''} ${item.label === 'Donate' ? 'bg-primary text-white text-center mt-4 rounded-full shadow-lg' : ''} ${item.label === 'Volunteer' ? 'border border-primary text-primary hover:bg-primary hover:text-white font-bold' : ''}`}
+                  onClick={handleNavClick}
+                >
+                  {item.label === 'Donate' ? 'DONATE NOW' : item.label}
+                </Link>
               ))}
-              <Link to="/donate" className="block w-full text-center bg-primary text-white px-4 py-3 rounded-full text-base font-bold hover:bg-red-700 mt-4 shadow-lg" onClick={handleNavClick}>
-                DONATE NOW
-              </Link>
             </div>
           </div>
         )}
