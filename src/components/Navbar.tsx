@@ -1,56 +1,41 @@
-
-import { useState, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Heart, Phone, Mail, ChevronDown, ChevronRight } from 'lucide-react';
-import logo from '../assets/logo.png';
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, Heart, Phone, Mail } from "lucide-react";
+import logo from "../assets/logo.png";
 
 // Multi-level nav structure
 const navItems = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Causes', to: '/causes' },
-  { label: 'Works', to: '/works' },
-  { label: 'Gallery', to: '/gallery' },
-  { label: 'Volunteer', to: '/volunteer' },
-  { label: 'Donate', to: '/donate' },
-  { label: 'Contact', to: '/contact' },
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Causes", to: "/causes" },
+  { label: "Works", to: "/works" },
+  { label: "Gallery", to: "/gallery" },
+  { label: "Volunteer", to: "/volunteer" },
+  { label: "Donate", to: "/donate" },
+  { label: "Transparency", to: "/transparency" },
+  { label: "Contact", to: "/contact" },
 ];
-
 
 // Helper: check if current path matches item or subitem
 type NavSubItem = { label: string; to: string };
 type NavItem = { label: string; to: string; subItems?: NavSubItem[] };
 
 function isActive(item: NavItem, pathname: string): boolean {
-  if (item.to && item.to !== '#' && pathname === item.to) return true;
+  if (item.to && item.to !== "#" && pathname === item.to) return true;
   if (item.subItems) {
-    return item.subItems.some((sub: NavSubItem) => sub.to && pathname.startsWith(sub.to.replace(/#.+$/, '')));
+    return item.subItems.some(
+      (sub: NavSubItem) =>
+        sub.to && pathname.startsWith(sub.to.replace(/#.+$/, ""))
+    );
   }
   return false;
 }
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [openMenu, setOpenMenu] = useState<string | null>(null); // which menu is open (for desktop)
-  const [mobileOpenMenu, setMobileOpenMenu] = useState<string | null>(null); // for mobile
   const location = useLocation();
-  const submenuTimeout = useRef<number | undefined>(undefined);
 
   const handleNavClick = () => setIsOpen(false);
-
-  // Desktop submenu open/close handlers
-  const handleMenuEnter = (label: string) => {
-    if (submenuTimeout.current) clearTimeout(submenuTimeout.current);
-    setOpenMenu(label);
-  };
-  const handleMenuLeave = () => {
-    submenuTimeout.current = window.setTimeout(() => setOpenMenu(null), 180);
-  };
-
-  // Mobile submenu toggle
-  const handleMobileMenuToggle = (label: string) => {
-    setMobileOpenMenu(mobileOpenMenu === label ? null : label);
-  };
 
   return (
     <header className="w-full font-sans">
@@ -66,8 +51,12 @@ const Navbar = () => {
             </span>
           </div>
           <div className="flex items-center space-x-4">
-            <Link to="/media" className="hover:text-gray-300">Media Center</Link>
-            <Link to="/careers" className="hover:text-gray-300">Careers</Link>
+            <Link to="/media" className="hover:text-gray-300">
+              Media Center
+            </Link>
+            <Link to="/careers" className="hover:text-gray-300">
+              Careers
+            </Link>
           </div>
         </div>
       </div>
@@ -79,7 +68,13 @@ const Navbar = () => {
             <div className="flex items-center">
               <Link to="/" className="flex-shrink-0 flex items-center gap-2">
                 <img width={65} src={logo} alt="ujiyala Logo" />
-                <span style={{ color: "#00812e" }} className="text-2xl font-extrabold text-gray-900 tracking-tight">UJIYALA <span className="text-primary">FOUNDATION</span></span>
+                <span
+                  className="text-2xl font-extrabold tracking-tight ujiyala-font"
+                  style={{ color: "#00812e" }}
+                >
+                  UJIYALA{" "}
+                  <span className="text-primary ujiyala-font">FOUNDATION</span>
+                </span>
               </Link>
             </div>
 
@@ -89,9 +84,28 @@ const Navbar = () => {
                 <Link
                   key={item.label}
                   to={item.to}
-                  className={`px-3 py-2 rounded-md font-semibold text-base uppercase tracking-wide transition-colors ${isActive(item, location.pathname) ? 'text-primary' : 'text-gray-700 hover:text-primary'} ${item.label === 'Donate' ? 'bg-primary text-white ml-2 px-6 py-3 rounded-full font-bold hover:bg-red-700 shadow-md flex items-center' : ''} ${item.label === 'Volunteer' ? 'border border-primary text-primary hover:bg-primary hover:text-white font-bold' : ''}`}
+                  className={`px-3 py-2 rounded-md font-semibold text-base uppercase tracking-wide transition-colors ${
+                    isActive(item, location.pathname)
+                      ? "text-primary"
+                      : "text-gray-700 hover:text-primary"
+                  } ${
+                    item.label === "Donate"
+                      ? "bg-primary text-white ml-2 px-6 py-3 rounded-full font-bold hover:bg-red-700 shadow-md flex items-center"
+                      : ""
+                  } ${
+                    item.label === "Volunteer"
+                      ? "border border-primary text-primary hover:bg-primary hover:text-white font-bold"
+                      : ""
+                  }`}
                 >
-                  {item.label === 'Donate' ? (<><Heart className="w-5 h-5 mr-2 fill-current" />DONATE</>) : item.label}
+                  {item.label === "Donate" ? (
+                    <>
+                      <Heart className="w-5 h-5 mr-2 fill-current" />
+                      DONATE
+                    </>
+                  ) : (
+                    item.label
+                  )}
                 </Link>
               ))}
             </div>
@@ -102,7 +116,11 @@ const Navbar = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none"
               >
-                {isOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
+                {isOpen ? (
+                  <X className="h-8 w-8" />
+                ) : (
+                  <Menu className="h-8 w-8" />
+                )}
               </button>
             </div>
           </div>
@@ -116,10 +134,20 @@ const Navbar = () => {
                 <Link
                   key={item.label}
                   to={item.to}
-                  className={`block text-gray-700 hover:text-primary hover:bg-gray-50 px-3 py-3 rounded-md text-base font-bold uppercase ${isActive(item, location.pathname) ? 'text-primary' : ''} ${item.label === 'Donate' ? 'bg-primary text-white text-center mt-4 rounded-full shadow-lg' : ''} ${item.label === 'Volunteer' ? 'border border-primary text-primary hover:bg-primary hover:text-white font-bold' : ''}`}
+                  className={`block text-gray-700 hover:text-primary hover:bg-gray-50 px-3 py-3 rounded-md text-base font-bold uppercase ${
+                    isActive(item, location.pathname) ? "text-primary" : ""
+                  } ${
+                    item.label === "Donate"
+                      ? "bg-primary text-white text-center mt-4 rounded-full shadow-lg"
+                      : ""
+                  } ${
+                    item.label === "Volunteer"
+                      ? "border border-primary text-primary hover:bg-primary hover:text-white font-bold"
+                      : ""
+                  }`}
                   onClick={handleNavClick}
                 >
-                  {item.label === 'Donate' ? 'DONATE NOW' : item.label}
+                  {item.label === "Donate" ? "DONATE NOW" : item.label}
                 </Link>
               ))}
             </div>

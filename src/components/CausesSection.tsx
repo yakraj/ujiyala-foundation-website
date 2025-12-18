@@ -1,83 +1,148 @@
-import { Utensils, Home, HeartPulse, GraduationCap, Sun, Users, HandHeart } from 'lucide-react';
+import {
+  Utensils,
+  Home,
+  HeartPulse,
+  GraduationCap,
+  Sun,
+  HandHeart,
+  Sprout,
+  ArrowRight,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 const causes = [
   {
+    id: "rural-development",
+    title: "Rural Development",
+    description:
+      "Empowering villages through sustainable agriculture, water conservation, and infrastructure development to ensure long-term self-reliance.",
+    icon: <Sprout className="w-6 h-6" />,
+    image:
+      "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    color: "bg-green-500",
+  },
+  {
+    id: "feeding-hungry",
     title: "Feeding the Hungry",
-    description: "Providing nutritious meals to those who struggle to find their next meal.",
-    icon: <Utensils className="w-12 h-12 text-primary" />,
-    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    description:
+      "Providing nutritious meals and food security to underprivileged families and individuals who struggle to find their next meal.",
+    icon: <Utensils className="w-6 h-6" />,
+    image:
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    color: "bg-orange-500",
   },
   {
-    title: "Roadside Assistance",
-    description: "Helping those living on the streets with basic necessities and care.",
-    icon: <Users className="w-12 h-12 text-primary" />,
-    image: "https://images.unsplash.com/photo-1504159551531-f40dd639a9d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    id: "slum-village-support",
+    title: "Slum & Village Support",
+    description:
+      "Improving living conditions, sanitation, and providing essential resources for slum dwellers and remote rural families.",
+    icon: <Home className="w-6 h-6" />,
+    image:
+      "https://images.unsplash.com/photo-1635154393676-24634e045746?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    color: "bg-blue-500",
   },
   {
-    title: "Slum Support",
-    description: "Improving living conditions and providing resources for slum dwellers.",
-    icon: <Home className="w-12 h-12 text-primary" />,
-    image: "https://images.unsplash.com/photo-1635154393676-24634e045746?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    id: "rural-healthcare",
+    title: "Rural Healthcare",
+    description:
+      "Offering free medical checkups, medicines, and health awareness programs to remote villages with limited access to clinics.",
+    icon: <HeartPulse className="w-6 h-6" />,
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    color: "bg-red-500",
   },
   {
-    title: "Medical Service",
-    description: "Offering free medical checkups and medicines to the underprivileged.",
-    icon: <HeartPulse className="w-12 h-12 text-primary" />,
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-  },
-  {
+    id: "educational-support",
     title: "Educational Support",
-    description: "Sponsoring education for children who cannot afford school fees.",
-    icon: <GraduationCap className="w-12 h-12 text-primary" />,
-    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    description:
+      "Sponsoring education, providing school supplies, and vocational training for children and youth from marginalized backgrounds.",
+    icon: <GraduationCap className="w-6 h-6" />,
+    image:
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    color: "bg-purple-500",
   },
   {
+    id: "support-homeless",
     title: "Support Homeless",
-    description: "Providing shelter and rehabilitation for the homeless population.",
-    icon: <HandHeart className="w-12 h-12 text-primary" />,
-    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    description:
+      "Providing temporary shelter, blankets, and rehabilitation support for the homeless population during extreme weather conditions.",
+    icon: <HandHeart className="w-6 h-6" />,
+    image:
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    color: "bg-yellow-600",
   },
   {
+    id: "spreading-hope",
     title: "Spreading Hope",
-    description: "Community engagement programs to lift spirits and build resilience.",
-    icon: <Sun className="w-12 h-12 text-primary" />,
-    image: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-  }
+    description:
+      "Community engagement programs, mental health awareness, and resilience building to lift spirits in challenging times.",
+    icon: <Sun className="w-6 h-6" />,
+    image:
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    color: "bg-sky-500",
+  },
 ];
 
 const CausesSection = () => {
   return (
-    <div className="py-24 bg-gray-50">
+    <div className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-extrabold text-gray-900 sm:text-5xl mb-4">Our Causes</h2>
-          <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
-            We are dedicated to these 7 pillars of social service, working tirelessly to bring change where it's needed most.
+        <div className="text-center mb-20">
+          <span className="text-primary font-bold tracking-widest uppercase text-sm">What We Do</span>
+          <h2 className="text-4xl font-extrabold text-secondary sm:text-5xl mt-3 mb-6">
+            Our Core Causes
+          </h2>
+          <div className="w-24 h-1.5 bg-primary mx-auto mb-8 rounded-full"></div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            We are dedicated to these 7 pillars of social service, working
+            tirelessly to bring sustainable change to rural and underprivileged communities.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {causes.map((cause, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group flex flex-col h-full border border-gray-100">
-              <div className="h-56 overflow-hidden relative">
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10"></div>
-                <img 
-                  src={cause.image} 
-                  alt={cause.title} 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+            <div
+              key={index}
+              className="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col h-full"
+            >
+              {/* Image Container */}
+              <div className="h-64 overflow-hidden relative">
+                <img
+                  src={cause.image}
+                  alt={cause.title}
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
                 />
-                <div className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md z-20 text-primary">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Icon Badge */}
+                <div className={`absolute top-6 left-6 ${cause.color} text-white p-3 rounded-2xl shadow-lg z-20 transform -rotate-6 group-hover:rotate-0 transition-transform duration-300`}>
                   {cause.icon}
                 </div>
               </div>
+
+              {/* Content */}
               <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">{cause.title}</h3>
-                <p className="text-gray-600 mb-6 flex-grow leading-relaxed">{cause.description}</p>
-                <div className="mt-auto pt-6 border-t border-gray-100">
-                  <button className="w-full bg-gray-100 text-gray-800 font-bold py-3 px-4 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center group-hover:shadow-md">
-                    Support This Cause
-                  </button>
+                <h3 className="text-2xl font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                  {cause.title}
+                </h3>
+                <p className="text-gray-600 mb-8 flex-grow leading-relaxed">
+                  {cause.description}
+                </p>
+                
+                <div className="flex items-center justify-between pt-6 border-t border-gray-50">
+                  <Link 
+                    to="/donate" 
+                    className="bg-primary text-white font-bold py-3 px-6 rounded-xl hover:bg-secondary transition-colors duration-300 shadow-lg shadow-primary/20"
+                  >
+                    Donate
+                  </Link>
+                  <Link 
+                    to="/causes" 
+                    className="text-secondary font-bold flex items-center gap-2 hover:text-primary transition-colors group/link"
+                  >
+                    Learn More
+                    <ArrowRight size={18} className="transform group-hover/link:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -89,3 +154,4 @@ const CausesSection = () => {
 };
 
 export default CausesSection;
+
