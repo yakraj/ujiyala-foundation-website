@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
-import adminApi from '../../services/adminApi';
+import React, { useState } from "react";
+import adminApi from "../../services/adminApi";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState<'projects' | 'gallery'>('projects');
+  const [activeTab, setActiveTab] = useState<"projects" | "gallery">(
+    "projects"
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold ujiyala-font">Admin Dashboard</h1>
-          <button 
+          <button
             onClick={() => {
-              localStorage.removeItem('token');
-              window.location.href = '/kale/login';
+              localStorage.removeItem("token");
+              window.location.href = "/kale/login";
             }}
             className="bg-red-500 text-white px-4 py-2 rounded"
           >
@@ -23,20 +25,32 @@ const Dashboard = () => {
         <div className="bg-white rounded shadow p-6">
           <div className="flex border-b mb-6">
             <button
-              className={`px-6 py-3 ${activeTab === 'projects' ? 'border-b-2 border-orange-500 font-bold' : ''}`}
-              onClick={() => setActiveTab('projects')}
+              className={`px-6 py-3 ${
+                activeTab === "projects"
+                  ? "border-b-2 border-orange-500 font-bold"
+                  : ""
+              }`}
+              onClick={() => setActiveTab("projects")}
             >
               Create Project
             </button>
             <button
-              className={`px-6 py-3 ${activeTab === 'gallery' ? 'border-b-2 border-orange-500 font-bold' : ''}`}
-              onClick={() => setActiveTab('gallery')}
+              className={`px-6 py-3 ${
+                activeTab === "gallery"
+                  ? "border-b-2 border-orange-500 font-bold"
+                  : ""
+              }`}
+              onClick={() => setActiveTab("gallery")}
             >
               Add to Gallery
             </button>
           </div>
 
-          {activeTab === 'projects' ? <CreateProjectForm /> : <CreateGalleryForm />}
+          {activeTab === "projects" ? (
+            <CreateProjectForm />
+          ) : (
+            <CreateGalleryForm />
+          )}
         </div>
       </div>
     </div>
@@ -45,64 +59,89 @@ const Dashboard = () => {
 
 const CreateProjectForm = () => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    location: '',
-    date: '',
-    duration: '',
-    status: 'upcoming',
-    volunteers: '', // comma separated
-    tags: '', // comma separated
+    title: "",
+    description: "",
+    location: "",
+    date: "",
+    duration: "",
+    status: "upcoming",
+    volunteers: "", // comma separated
+    tags: "", // comma separated
   });
-  const [impactList, setImpactList] = useState<{label: string, value: string}[]>([]);
+  const [impactList, setImpactList] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleImpactChange = (index: number, field: 'label' | 'value', value: string) => {
+  const handleImpactChange = (
+    index: number,
+    field: "label" | "value",
+    value: string
+  ) => {
     const newImpact = [...impactList];
     newImpact[index][field] = value;
     setImpactList(newImpact);
   };
 
-  const addImpact = () => setImpactList([...impactList, { label: '', value: '' }]);
-  const removeImpact = (index: number) => setImpactList(impactList.filter((_, i) => i !== index));
+  const addImpact = () =>
+    setImpactList([...impactList, { label: "", value: "" }]);
+  const removeImpact = (index: number) =>
+    setImpactList(impactList.filter((_, i) => i !== index));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
+    setMessage("");
 
     try {
       const data = new FormData();
-      Object.keys(formData).forEach(key => {
+      Object.keys(formData).forEach((key) => {
         data.append(key, formData[key as keyof typeof formData]);
       });
-      if (image) data.append('image', image);
-      
-      // Process arrays
-      const volunteersArray = formData.volunteers.split(',').map(v => v.trim()).filter(v => v);
-      const tagsArray = formData.tags.split(',').map(t => t.trim()).filter(t => t);
-      
-      data.set('volunteers', JSON.stringify(volunteersArray));
-      data.set('tags', JSON.stringify(tagsArray));
-      data.append('impact', JSON.stringify(impactList));
+      if (image) data.append("image", image);
 
-      await adminApi.post('/projects', data);
-      setMessage('Project created successfully!');
+      // Process arrays
+      const volunteersArray = formData.volunteers
+        .split(",")
+        .map((v) => v.trim())
+        .filter((v) => v);
+      const tagsArray = formData.tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t);
+
+      data.set("volunteers", JSON.stringify(volunteersArray));
+      data.set("tags", JSON.stringify(tagsArray));
+      data.append("impact", JSON.stringify(impactList));
+
+      await adminApi.post("/projects", data);
+      setMessage("Project created successfully!");
       // Reset form
       setFormData({
-        title: '', description: '', location: '', date: '', duration: '', status: 'upcoming', volunteers: '', tags: ''
+        title: "",
+        description: "",
+        location: "",
+        date: "",
+        duration: "",
+        status: "upcoming",
+        volunteers: "",
+        tags: "",
       });
       setImpactList([]);
       setImage(null);
     } catch (error) {
       console.error(error);
-      setMessage('Error creating project');
+      setMessage("Error creating project");
     } finally {
       setLoading(false);
     }
@@ -110,16 +149,37 @@ const CreateProjectForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {message && <div className={`p-4 rounded ${message.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>{message}</div>}
-      
+      {message && (
+        <div
+          className={`p-4 rounded ${
+            message.includes("Error")
+              ? "bg-red-100 text-red-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block mb-1 font-medium">Title</label>
-          <input name="title" value={formData.title} onChange={handleChange} className="w-full border p-2 rounded" required />
+          <input
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          />
         </div>
         <div>
           <label className="block mb-1 font-medium">Status</label>
-          <select name="status" value={formData.status} onChange={handleChange} className="w-full border p-2 rounded">
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          >
             <option value="upcoming">Upcoming</option>
             <option value="ongoing">Ongoing</option>
             <option value="completed">Completed</option>
@@ -129,91 +189,163 @@ const CreateProjectForm = () => {
 
       <div>
         <label className="block mb-1 font-medium">Description</label>
-        <textarea name="description" value={formData.description} onChange={handleChange} className="w-full border p-2 rounded h-32" required />
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          className="w-full border p-2 rounded h-32"
+          required
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block mb-1 font-medium">Location</label>
-          <input name="location" value={formData.location} onChange={handleChange} className="w-full border p-2 rounded" />
+          <input
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
         </div>
         <div>
           <label className="block mb-1 font-medium">Date</label>
-          <input type="date" name="date" value={formData.date} onChange={handleChange} className="w-full border p-2 rounded" />
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          />
         </div>
         <div>
           <label className="block mb-1 font-medium">Duration</label>
-          <input name="duration" value={formData.duration} onChange={handleChange} className="w-full border p-2 rounded" placeholder="e.g. 2 hours" />
+          <input
+            name="duration"
+            value={formData.duration}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            placeholder="e.g. 2 hours"
+          />
         </div>
       </div>
 
       <div>
-        <label className="block mb-1 font-medium">Volunteers (comma separated)</label>
-        <input name="volunteers" value={formData.volunteers} onChange={handleChange} className="w-full border p-2 rounded" placeholder="John, Jane, Doe" />
+        <label className="block mb-1 font-medium">
+          Volunteers (comma separated)
+        </label>
+        <input
+          name="volunteers"
+          value={formData.volunteers}
+          onChange={handleChange}
+          className="w-full border p-2 rounded"
+          placeholder="John, Jane, Doe"
+        />
       </div>
 
       <div>
         <label className="block mb-1 font-medium">Tags (comma separated)</label>
-        <input name="tags" value={formData.tags} onChange={handleChange} className="w-full border p-2 rounded" placeholder="Education, Health" />
+        <input
+          name="tags"
+          value={formData.tags}
+          onChange={handleChange}
+          className="w-full border p-2 rounded"
+          placeholder="Education, Health"
+        />
       </div>
 
       <div>
         <label className="block mb-1 font-medium">Project Image</label>
-        <input type="file" onChange={e => setImage(e.target.files?.[0] || null)} className="w-full border p-2 rounded" accept="image/*" />
+        <input
+          type="file"
+          onChange={(e) => setImage(e.target.files?.[0] || null)}
+          className="w-full border p-2 rounded"
+          accept="image/*"
+        />
       </div>
 
       <div>
         <label className="block mb-1 font-medium">Impact List</label>
         {impactList.map((item, index) => (
           <div key={index} className="flex gap-2 mb-2">
-            <input placeholder="Label (e.g. Trees Planted)" value={item.label} onChange={e => handleImpactChange(index, 'label', e.target.value)} className="flex-1 border p-2 rounded" />
-            <input placeholder="Value (e.g. 500)" value={item.value} onChange={e => handleImpactChange(index, 'value', e.target.value)} className="flex-1 border p-2 rounded" />
-            <button type="button" onClick={() => removeImpact(index)} className="text-red-500 px-2">X</button>
+            <input
+              placeholder="Label (e.g. Trees Planted)"
+              value={item.label}
+              onChange={(e) =>
+                handleImpactChange(index, "label", e.target.value)
+              }
+              className="flex-1 border p-2 rounded"
+            />
+            <input
+              placeholder="Value (e.g. 500)"
+              value={item.value}
+              onChange={(e) =>
+                handleImpactChange(index, "value", e.target.value)
+              }
+              className="flex-1 border p-2 rounded"
+            />
+            <button
+              type="button"
+              onClick={() => removeImpact(index)}
+              className="text-red-500 px-2"
+            >
+              X
+            </button>
           </div>
         ))}
-        <button type="button" onClick={addImpact} className="text-sm text-blue-600 hover:underline">+ Add Impact Item</button>
+        <button
+          type="button"
+          onClick={addImpact}
+          className="text-sm text-blue-600 hover:underline"
+        >
+          + Add Impact Item
+        </button>
       </div>
 
-      <button type="submit" disabled={loading} className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:opacity-50">
-        {loading ? 'Creating...' : 'Create Project'}
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:opacity-50"
+      >
+        {loading ? "Creating..." : "Create Project"}
       </button>
     </form>
   );
 };
 
 const CreateGalleryForm = () => {
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!image) {
-      setMessage('Please select an image');
+      setMessage("Please select an image");
       return;
     }
     setLoading(true);
-    setMessage('');
+    setMessage("");
 
     try {
       const data = new FormData();
-      data.append('title', title);
-      data.append('category', category);
-      data.append('description', description);
-      data.append('image', image);
+      data.append("title", title);
+      data.append("category", category);
+      data.append("description", description);
+      data.append("image", image);
 
-      await adminApi.post('/gallery', data);
-      setMessage('Gallery item added successfully!');
-      setTitle('');
-      setCategory('');
-      setDescription('');
+      await adminApi.post("/gallery", data);
+      setMessage("Gallery item added successfully!");
+      setTitle("");
+      setCategory("");
+      setDescription("");
       setImage(null);
     } catch (error) {
       console.error(error);
-      setMessage('Error adding gallery item');
+      setMessage("Error adding gallery item");
     } finally {
       setLoading(false);
     }
@@ -221,30 +353,63 @@ const CreateGalleryForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
-      {message && <div className={`p-4 rounded ${message.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>{message}</div>}
-      
+      {message && (
+        <div
+          className={`p-4 rounded ${
+            message.includes("Error")
+              ? "bg-red-100 text-red-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       <div>
         <label className="block mb-1 font-medium">Title</label>
-        <input value={title} onChange={e => setTitle(e.target.value)} className="w-full border p-2 rounded" />
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
       </div>
 
       <div>
         <label className="block mb-1 font-medium">Category</label>
-        <input value={category} onChange={e => setCategory(e.target.value)} className="w-full border p-2 rounded" placeholder="e.g. Event" />
+        <input
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full border p-2 rounded"
+          placeholder="e.g. Event"
+        />
       </div>
 
       <div>
         <label className="block mb-1 font-medium">Description</label>
-        <textarea value={description} onChange={e => setDescription(e.target.value)} className="w-full border p-2 rounded" />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
       </div>
 
       <div>
         <label className="block mb-1 font-medium">Image</label>
-        <input type="file" onChange={e => setImage(e.target.files?.[0] || null)} className="w-full border p-2 rounded" accept="image/*" required />
+        <input
+          type="file"
+          onChange={(e) => setImage(e.target.files?.[0] || null)}
+          className="w-full border p-2 rounded"
+          accept="image/*"
+          required
+        />
       </div>
 
-      <button type="submit" disabled={loading} className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:opacity-50">
-        {loading ? 'Uploading...' : 'Add to Gallery'}
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:opacity-50"
+      >
+        {loading ? "Uploading..." : "Add to Gallery"}
       </button>
     </form>
   );
