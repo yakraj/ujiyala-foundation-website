@@ -1,83 +1,47 @@
 import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Maximize2, Filter } from "lucide-react";
 
-const galleryData = [
-  {
-    id: 1,
-    src: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Food Distribution",
-    title: "Feeding the Hungry",
-    description: "Weekly food distribution drive in local communities.",
-  },
-  {
-    id: 2,
-    src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Education",
-    title: "Rural School Support",
-    description:
-      "Providing school kits and books to children in remote villages.",
-  },
-  {
-    id: 3,
-    src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Medical",
-    title: "Village Medical Camp",
-    description: "Free health checkups and medicines for elderly villagers.",
-  },
-  {
-    id: 4,
-    src: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Rural Development",
-    title: "Water Conservation Project",
-    description: "Building sustainable water solutions for agriculture.",
-  },
-  {
-    id: 5,
-    src: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Community",
-    title: "Community Gathering",
-    description: "Building resilience through community engagement.",
-  },
-  {
-    id: 6,
-    src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Shelter",
-    title: "Homeless Support",
-    description: "Providing blankets and temporary shelter during winters.",
-  },
-  {
-    id: 7,
-    src: "https://images.unsplash.com/photo-1504159551531-f40dd639a9d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Community",
-    title: "Volunteer Training",
-    description: "Empowering local youth to lead community initiatives.",
-  },
-  {
-    id: 8,
-    src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    category: "Food Distribution",
-    title: "Nutritious Meals",
-    description: "Ensuring every child gets a healthy meal.",
-  },
-];
-
-const categories = [
-  "All",
-  ...new Set(galleryData.map((item) => item.category)),
-];
-
 const Gallery = () => {
+  const [galleryData, setGalleryData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [filter, setFilter] = useState("All");
-  const [filteredImages, setFilteredImages] = useState(galleryData);
 
   useEffect(() => {
-    if (filter === "All") {
-      setFilteredImages(galleryData);
-    } else {
-      setFilteredImages(galleryData.filter((img) => img.category === filter));
-    }
-  }, [filter]);
+    const fetchGallery = async () => {
+      try {
+        const API_URL =
+          import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+        const res = await fetch(`${API_URL}/gallery`);
+        const data = await res.json();
+        if (data.ok) {
+          // Map backend fields to frontend expected fields if necessary
+          const mapped = data.items.map((item: any) => ({
+            id: item._id,
+            src: item.imageUrl,
+            category: item.category || "General",
+            title: item.title,
+            description: item.description,
+          }));
+          setGalleryData(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to fetch gallery:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGallery();
+  }, []);
+
+  const categories = [
+    "All",
+    ...new Set(galleryData.map((item) => item.category)),
+  ];
+  const filteredImages =
+    filter === "All"
+      ? galleryData
+      : galleryData.filter((img) => img.category === filter);
 
   const openLightbox = (id: number) => {
     const index = filteredImages.findIndex((img) => img.id === id);

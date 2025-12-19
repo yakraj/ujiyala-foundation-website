@@ -44,7 +44,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center space-x-6">
             <span className="flex items-center hover:text-gray-300 cursor-pointer">
-              <Phone className="w-4 h-4 mr-2" /> +1 234 567 8900
+              <Phone className="w-4 h-4 mr-2" /> +91 9284069880
             </span>
             <span className="flex items-center hover:text-gray-300 cursor-pointer">
               <Mail className="w-4 h-4 mr-2" /> info@ujiyalafoundation.org

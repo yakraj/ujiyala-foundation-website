@@ -53,7 +53,7 @@ const HeroCarousel = () => {
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent flex flex-col justify-center items-start text-left text-white px-4 sm:px-16 lg:px-32">
           <div className="max-w-3xl animate-fade-in-up">
-            <span className="inline-block bg-primary text-white text-xs font-bold tracking-[0.3em] uppercase px-4 py-2 rounded-full mb-6 ujiyala-font">
+            <span className="inline-block bg-primary text-white text-xs font-bold tracking-[0.3em] uppercase px-4 py-2 rounded-full mb-6">
               Ujiyala Foundation
             </span>
             <h1 className="text-5xl md:text-8xl font-black mb-6 drop-shadow-2xl leading-[1.1]">

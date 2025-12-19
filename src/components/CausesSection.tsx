@@ -88,14 +88,17 @@ const CausesSection = () => {
     <div className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
-          <span className="text-primary font-bold tracking-widest uppercase text-sm">What We Do</span>
+          <span className="text-primary font-bold tracking-widest uppercase text-sm">
+            What We Do
+          </span>
           <h2 className="text-4xl font-extrabold text-secondary sm:text-5xl mt-3 mb-6">
             Our Core Causes
           </h2>
           <div className="w-24 h-1.5 bg-primary mx-auto mb-8 rounded-full"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             We are dedicated to these 7 pillars of social service, working
-            tirelessly to bring sustainable change to rural and underprivileged communities.
+            tirelessly to bring sustainable change to rural and underprivileged
+            communities.
           </p>
         </div>
 
@@ -113,9 +116,11 @@ const CausesSection = () => {
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
+
                 {/* Icon Badge */}
-                <div className={`absolute top-6 left-6 ${cause.color} text-white p-3 rounded-2xl shadow-lg z-20 transform -rotate-6 group-hover:rotate-0 transition-transform duration-300`}>
+                <div
+                  className={`absolute top-6 left-6 ${cause.color} text-white p-3 rounded-2xl shadow-lg z-20 transform -rotate-6 group-hover:rotate-0 transition-transform duration-300`}
+                >
                   {cause.icon}
                 </div>
               </div>
@@ -128,20 +133,23 @@ const CausesSection = () => {
                 <p className="text-gray-600 mb-8 flex-grow leading-relaxed">
                   {cause.description}
                 </p>
-                
+
                 <div className="flex items-center justify-between pt-6 border-t border-gray-50">
-                  <Link 
-                    to="/donate" 
+                  <Link
+                    to="/donate"
                     className="bg-primary text-white font-bold py-3 px-6 rounded-xl hover:bg-secondary transition-colors duration-300 shadow-lg shadow-primary/20"
                   >
                     Donate
                   </Link>
-                  <Link 
-                    to="/causes" 
+                  <Link
+                    to="/causes"
                     className="text-secondary font-bold flex items-center gap-2 hover:text-primary transition-colors group/link"
                   >
                     Learn More
-                    <ArrowRight size={18} className="transform group-hover/link:translate-x-1 transition-transform" />
+                    <ArrowRight
+                      size={18}
+                      className="transform group-hover/link:translate-x-1 transition-transform"
+                    />
                   </Link>
                 </div>
               </div>
@@ -154,4 +162,3 @@ const CausesSection = () => {
 };
 
 export default CausesSection;
-

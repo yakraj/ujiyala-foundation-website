@@ -9,6 +9,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import FoundersSection from "../components/FoundersSection";
+import slumImg from "../assets/slum.jpg";
 
 const About = () => {
   return (
@@ -18,13 +19,13 @@ const About = () => {
         <div className="absolute inset-0 bg-black/30 z-0"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h1 className="text-4xl sm:text-6xl font-extrabold mb-6 leading-tight">
-            Lighting Up Lives, <span className="text-primary">One Village</span>{" "}
-            at a Time
+            Bringing <span className="text-primary">Light</span> to the Darkest
+            Corners
           </h1>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            <span className="ujiyala-font">Ujiyala Foundation</span> is
-            dedicated to empowering rural and underprivileged communities
-            through sustainable development, education, and healthcare.
+            <span className="ujiyala-font">Ujiyala Foundation</span> is a
+            faith-driven movement dedicated to serving the homeless, the hungry,
+            and the most vulnerable in our society.
           </p>
         </div>
       </div>
@@ -40,36 +41,40 @@ const About = () => {
               <div className="w-20 h-1 bg-primary mb-8"></div>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
-                  Founded with a vision to bring "
+                  Founded to bring "
                   <span className="ujiyala-font">Ujiyala</span>" (Light) into
                   the lives of those living in darkness, our journey began in
-                  the small villages of Nashik. We saw the struggles of rural
-                  families—lack of clean water, limited access to healthcare,
-                  and children unable to attend school.
+                  the small villages of Nashik (Sinnar). Guided by the Word of
+                  God and the call to love our neighbor, we witnessed the deep
+                  struggles of rural families—lack of clean water, limited
+                  access to healthcare, and children unable to attend school.
                 </p>
                 <p>
-                  What started as a small group of volunteers distributing food
-                  has grown into a structured foundation working across multiple
-                  sectors. Today, we focus on long-term, sustainable solutions
-                  that empower communities to become self-reliant.
+                  What began as a small band of volunteers offering food and
+                  care has grown into a structured foundation addressing root
+                  causes across health, education, and livelihoods. Rooted in
+                  faith, our service is an expression of worship—every act of
+                  compassion reflects God's love and restores human dignity.
                 </p>
                 <p>
-                  Our work is deeply rooted in the belief that every individual,
-                  regardless of their birthplace, deserves the opportunity to
-                  thrive.
+                  Today, we pursue long-term, sustainable solutions that enable
+                  communities to become self-reliant. Our mission is to feed,
+                  shelter, educate, and bring hope to the most vulnerable,
+                  driven by compassion for society and the belief that every
+                  person deserves the opportunity to thrive.
                 </p>
               </div>
             </div>
             <div className="relative">
               <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                  alt="Our Impact"
+                  src={slumImg}
+                  alt="Slum community"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="absolute -bottom-10 -left-10 bg-primary text-white p-8 rounded-3xl shadow-xl hidden sm:block">
-                <div className="text-4xl font-bold mb-1">5+ Years</div>
+                <div className="text-4xl font-bold mb-1">1+ Years</div>
                 <div className="text-sm uppercase tracking-widest font-semibold">
                   Of Dedicated Service
                 </div>

@@ -65,15 +65,39 @@ const CreateProjectForm = () => {
     date: "",
     duration: "",
     status: "upcoming",
-    volunteers: "", // comma separated
-    tags: "", // comma separated
+    category: "Rural Development", // Default category
+    volunteers: "",
+    tags: "",
   });
   const [impactList, setImpactList] = useState<
     { label: string; value: string }[]
   >([]);
-  const [image, setImage] = useState<File | null>(null);
+  // Changed to arrays for multiple files
+  const [images, setImages] = useState<FileList | null>(null);
+  const [videos, setVideos] = useState<FileList | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const categories = [
+    "Rural Development",
+    "Feeding the Hungry",
+    "Slum & Village Support",
+    "Rural Healthcare",
+    "Educational Support",
+    "Support Homeless",
+    "Spreading Hope",
+    "Women Empowerment",
+    "Child Welfare",
+    "Environment & Sustainability",
+    "Disaster Relief",
+    "Skill Development",
+    "Animal Welfare",
+    "Senior Citizen Care",
+    "Clean Water & Sanitation",
+    "Youth Development",
+    "Cultural Heritage",
+    "Human Rights",
+  ];
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -108,7 +132,20 @@ const CreateProjectForm = () => {
       Object.keys(formData).forEach((key) => {
         data.append(key, formData[key as keyof typeof formData]);
       });
-      if (image) data.append("image", image);
+
+      // Append multiple images
+      if (images) {
+        for (let i = 0; i < images.length; i++) {
+          data.append("images", images[i]);
+        }
+      }
+
+      // Append multiple videos
+      if (videos) {
+        for (let i = 0; i < videos.length; i++) {
+          data.append("videos", videos[i]);
+        }
+      }
 
       // Process arrays
       const volunteersArray = formData.volunteers
@@ -126,7 +163,6 @@ const CreateProjectForm = () => {
 
       await adminApi.post("/projects", data);
       setMessage("Project created successfully!");
-      // Reset form
       setFormData({
         title: "",
         description: "",
@@ -134,11 +170,14 @@ const CreateProjectForm = () => {
         date: "",
         duration: "",
         status: "upcoming",
+        category: "Rural Development",
         volunteers: "",
         tags: "",
       });
       setImpactList([]);
-      setImage(null);
+      setImages(null);
+      setVideos(null);
+      // Reset file inputs manually if needed or rely on key change
     } catch (error) {
       console.error(error);
       setMessage("Error creating project");
@@ -161,7 +200,7 @@ const CreateProjectForm = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block mb-1 font-medium">Title</label>
           <input
@@ -171,6 +210,21 @@ const CreateProjectForm = () => {
             className="w-full border p-2 rounded"
             required
           />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium">Category</label>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="block mb-1 font-medium">Status</label>
@@ -254,14 +308,31 @@ const CreateProjectForm = () => {
         />
       </div>
 
-      <div>
-        <label className="block mb-1 font-medium">Project Image</label>
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files?.[0] || null)}
-          className="w-full border p-2 rounded"
-          accept="image/*"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block mb-1 font-medium">
+            Project Images (Multiple)
+          </label>
+          <input
+            type="file"
+            onChange={(e) => setImages(e.target.files)}
+            className="w-full border p-2 rounded"
+            accept="image/*"
+            multiple
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium">
+            Project Videos (Multiple)
+          </label>
+          <input
+            type="file"
+            onChange={(e) => setVideos(e.target.files)}
+            className="w-full border p-2 rounded"
+            accept="video/*"
+            multiple
+          />
+        </div>
       </div>
 
       <div>
@@ -315,11 +386,32 @@ const CreateProjectForm = () => {
 
 const CreateGalleryForm = () => {
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Rural Development");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const categories = [
+    "Rural Development",
+    "Feeding the Hungry",
+    "Slum & Village Support",
+    "Rural Healthcare",
+    "Educational Support",
+    "Support Homeless",
+    "Spreading Hope",
+    "Women Empowerment",
+    "Child Welfare",
+    "Environment & Sustainability",
+    "Disaster Relief",
+    "Skill Development",
+    "Animal Welfare",
+    "Senior Citizen Care",
+    "Clean Water & Sanitation",
+    "Youth Development",
+    "Cultural Heritage",
+    "Human Rights",
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -376,12 +468,17 @@ const CreateGalleryForm = () => {
 
       <div>
         <label className="block mb-1 font-medium">Category</label>
-        <input
+        <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           className="w-full border p-2 rounded"
-          placeholder="e.g. Event"
-        />
+        >
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>

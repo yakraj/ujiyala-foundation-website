@@ -124,11 +124,11 @@ const Footer = () => {
             <ul className="space-y-4 text-sm text-gray-300">
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 mr-3 text-primary flex-shrink-0" />{" "}
-                <span>123 Hope Street, City, Country</span>
+                <span>Lonarwadi, Sinnar, Nashik, Maharashtra</span>
               </li>
               <li className="flex items-center">
                 <Phone className="w-5 h-5 mr-3 text-primary flex-shrink-0" />{" "}
-                <span>+1 234 567 8900</span>
+                <span>+91 9284069880</span>
               </li>
               <li className="flex items-center">
                 <Mail className="w-5 h-5 mr-3 text-primary flex-shrink-0" />{" "}

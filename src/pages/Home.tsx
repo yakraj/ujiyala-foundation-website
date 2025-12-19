@@ -50,11 +50,10 @@ const Home = () => {
                 Darkest Corners
               </h2>
               <p className="text-xl text-gray-600 mb-10 leading-relaxed">
-                <span className="ujiyala-font">Ujiyala Foundation</span> is more
-                than just an NGO. We are a movement dedicated to bridging the
-                gap between urban resources and rural needs. From sustainable
-                agriculture to digital literacy, we are building self-reliant
-                communities.
+                Ujiyala Foundation is more than just an NGO. We are a movement
+                dedicated to bridging the gap between urban resources and rural
+                needs. From sustainable agriculture to digital literacy, we are
+                building self-reliant communities.
               </p>
 
               <div className="space-y-6 mb-12">
@@ -181,7 +180,7 @@ const Home = () => {
               </p>
               <div className="flex gap-4">
                 <span className="text-gray-500 font-bold text-sm uppercase tracking-widest">
-                  Follow @<span className="ujiyala-font">ujiyala</span>
+                  Follow @ujiyala
                 </span>
               </div>
             </div>
@@ -212,10 +211,9 @@ const Home = () => {
               />
               <div className="relative z-10">
                 <p className="text-xl text-gray-600 italic mb-8 leading-relaxed">
-                  "<span className="ujiyala-font">Ujiyala Foundation</span>{" "}
-                  changed my life. My children now go to school and we have food
-                  on our table. The sustainable farming techniques they taught
-                  us have doubled our yield."
+                  "Ujiyala Foundation changed my life. My children now go to
+                  school and we have food on our table. The sustainable farming
+                  techniques they taught us have doubled our yield."
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 bg-gray-200 rounded-full overflow-hidden">
@@ -243,11 +241,9 @@ const Home = () => {
               />
               <div className="relative z-10">
                 <p className="text-xl text-gray-600 italic mb-8 leading-relaxed">
-                  "I am proud to support{" "}
-                  <span className="ujiyala-font">Ujiyala</span>. Their
-                  transparency and dedication to rural development are
-                  unmatched. Seeing the impact on the ground is truly
-                  inspiring."
+                  "I am proud to support Ujiyala. Their transparency and
+                  dedication to rural development are unmatched. Seeing the
+                  impact on the ground is truly inspiring."
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 bg-gray-200 rounded-full overflow-hidden">
@@ -310,7 +306,7 @@ const Home = () => {
         <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
           <h2 className="text-4xl sm:text-6xl font-black text-white mb-8 leading-tight">
             Ready to be a part of the{" "}
-            <span className="text-primary ujiyala-font">Ujiyala</span> Journey?
+            <span className="text-primary">Ujiyala</span> Journey?
           </h2>
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
             Whether you want to volunteer your time or support us financially,

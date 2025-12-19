@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const API_URL =
-        import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+        import.meta.env.VITE_API_URL || "http://localhost:4000/api";
       const res = await axios.post(`${API_URL}/auth/login`, {
         email,
         password,

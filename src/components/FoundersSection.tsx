@@ -54,7 +54,7 @@ const FoundersSection = () => {
             Our Leadership
           </span>
           <h2 className="text-4xl font-black text-secondary mt-4 mb-6">
-            The Visionaries Behind <span className="ujiyala-font">Ujiyala</span>
+            The Visionaries Behind Ujiyala
           </h2>
           <div className="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
         </div>

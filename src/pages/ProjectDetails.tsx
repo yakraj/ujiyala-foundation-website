@@ -5,7 +5,6 @@ import {
   MapPin,
   Users,
   ArrowLeft,
-  ArrowRight,
   Tag,
   CheckCircle2,
   Clock,
@@ -217,9 +216,9 @@ const ProjectDetails = () => {
                       )
                     }
                     className="bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/40 transition-all"
-                    aria-label="Next image"
                   >
-                    <ArrowRight size={24} />
+                    <Share2 size={24} className="rotate-180" />{" "}
+                    {/* Using Share2 as a placeholder for right arrow */}
                   </button>
                 </div>
               </div>
