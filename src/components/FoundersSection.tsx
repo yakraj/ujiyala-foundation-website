@@ -1,49 +1,5 @@
 import { Linkedin, Mail, Twitter } from "lucide-react";
-
-const founders = [
-  {
-    name: "Amit Kumar",
-    role: "Founder & President",
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
-    bio: "Visionary leader with a passion for social change and community upliftment in rural Nashik.",
-  },
-  {
-    name: "Priya Sharma",
-    role: "Co-Founder & Secretary",
-    img: "https://randomuser.me/api/portraits/women/44.jpg",
-    bio: "Dedicated to empowering women and children through education and health initiatives.",
-  },
-  {
-    name: "Rahul Verma",
-    role: "Co-Founder & Treasurer",
-    img: "https://randomuser.me/api/portraits/men/65.jpg",
-    bio: "Handles finances and ensures transparency in all our operations and rural projects.",
-  },
-  {
-    name: "Sunita Joshi",
-    role: "Co-Founder",
-    img: "https://randomuser.me/api/portraits/women/55.jpg",
-    bio: "Focused on health and nutrition drives for children in remote village areas.",
-  },
-  {
-    name: "Vikas Singh",
-    role: "Co-Founder",
-    img: "https://randomuser.me/api/portraits/men/77.jpg",
-    bio: "Leads logistics and outreach programs across the Nashik district.",
-  },
-  {
-    name: "Meena Gupta",
-    role: "Co-Founder",
-    img: "https://randomuser.me/api/portraits/women/68.jpg",
-    bio: "Drives women empowerment and self-help group initiatives in villages.",
-  },
-  {
-    name: "Rohit Saini",
-    role: "Co-Founder",
-    img: "https://randomuser.me/api/portraits/men/81.jpg",
-    bio: "Coordinates education and skill development projects for rural youth.",
-  },
-];
+import { FOUNDERS } from "../data/founders";
 
 const FoundersSection = () => {
   return (
@@ -60,7 +16,7 @@ const FoundersSection = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {founders.map((founder, idx) => (
+          {FOUNDERS.map((founder, idx) => (
             <div
               key={idx}
               className="group bg-gray-50 rounded-[2.5rem] p-8 flex flex-col items-center text-center hover:bg-white hover:shadow-2xl hover:shadow-secondary/10 transition-all duration-500 border border-transparent hover:border-gray-100"
@@ -86,17 +42,31 @@ const FoundersSection = () => {
 
               <div className="flex gap-4 mt-auto">
                 <a
-                  href="#"
+                  href={founder.linkedin || "#"}
                   className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-sm"
                 >
                   <Linkedin size={18} />
                 </a>
                 <a
-                  href="#"
+                  href={founder.twitter || "#"}
                   className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-sm"
                 >
                   <Twitter size={18} />
                 </a>
+                <a
+                  href={founder.email ? `mailto:${founder.email}` : "#"}
+                  className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-sm"
+                >
+                  <Mail size={18} />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
                 <a
                   href="#"
                   className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-sm"
