@@ -269,35 +269,6 @@ const Home = () => {
       </section>
 
       {/* Partners Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-sm font-bold text-gray-400 uppercase tracking-[0.3em] mb-12">
-            Trusted by Organizations Worldwide
-          </h2>
-          <div className="flex flex-wrap justify-center gap-12 md:gap-20 items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
-              alt="Google"
-              className="h-8"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/0/08/Unicef_logo.png"
-              alt="Unicef"
-              className="h-10"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/6/6b/World_Food_Programme_logo.svg"
-              alt="WFP"
-              className="h-12"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Save_the_Children_logo.svg"
-              alt="Save the Children"
-              className="h-10"
-            />
-          </div>
-        </div>
-      </section>
 
       <FoundersSection />
 
