@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import adminApi from "../../services/adminApi";
 
 const Dashboard = () => {
@@ -112,7 +112,7 @@ const CreateProjectForm = () => {
   ];
 
   const handleChange = (
-    e: React.ChangeEvent<
+    e: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
@@ -134,7 +134,7 @@ const CreateProjectForm = () => {
   const removeImpact = (index: number) =>
     setImpactList(impactList.filter((_, i) => i !== index));
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
@@ -425,7 +425,7 @@ const CreateGalleryForm = () => {
     "Human Rights",
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!image) {
       setMessage("Please select an image");
@@ -569,14 +569,14 @@ const AddExpenseForm = ({ onSuccess }: { onSuccess: () => void }) => {
   ];
 
   const handleChange = (
-    e: React.ChangeEvent<
+    e: ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
@@ -768,7 +768,7 @@ const PartialPaymentsList = ({ onSuccess }: { onSuccess: () => void }) => {
     {}
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchPartialPayments();
   }, []);
 
