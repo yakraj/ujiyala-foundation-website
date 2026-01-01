@@ -50,10 +50,11 @@ const Home = () => {
                 Darkest Corners
               </h2>
               <p className="text-xl text-gray-600 mb-10 leading-relaxed">
-                Ujiyala Foundation is more than just an NGO. We are a movement
-                dedicated to bridging the gap between urban resources and rural
-                needs. From sustainable agriculture to digital literacy, we are
-                building self-reliant communities.
+                <span className="ujiyala-font">Ujiyala Foundation</span> is more
+                than just an NGO. We are a movement dedicated to bridging the
+                gap between urban resources and rural needs. From sustainable
+                agriculture to digital literacy, we are building self-reliant
+                communities.
               </p>
 
               <div className="space-y-6 mb-12">
@@ -180,7 +181,7 @@ const Home = () => {
               </p>
               <div className="flex gap-4">
                 <span className="text-gray-500 font-bold text-sm uppercase tracking-widest">
-                  Follow @ujiyala
+                  Follow @<span className="ujiyala-font">ujiyala</span>
                 </span>
               </div>
             </div>

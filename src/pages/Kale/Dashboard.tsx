@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import adminApi from "../../services/adminApi";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState<"projects" | "gallery">(
-    "projects"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "projects" | "gallery" | "accountant"
+  >("projects");
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -44,12 +44,24 @@ const Dashboard = () => {
             >
               Add to Gallery
             </button>
+            <button
+              className={`px-6 py-3 ${
+                activeTab === "accountant"
+                  ? "border-b-2 border-orange-500 font-bold"
+                  : ""
+              }`}
+              onClick={() => setActiveTab("accountant")}
+            >
+              Accountant
+            </button>
           </div>
 
           {activeTab === "projects" ? (
             <CreateProjectForm />
-          ) : (
+          ) : activeTab === "gallery" ? (
             <CreateGalleryForm />
+          ) : (
+            <AccountantPanel />
           )}
         </div>
       </div>
@@ -509,6 +521,409 @@ const CreateGalleryForm = () => {
         {loading ? "Uploading..." : "Add to Gallery"}
       </button>
     </form>
+  );
+};
+
+const AccountantPanel = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleRefresh = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-xl font-bold mb-4">Add Expense</h2>
+        <AddExpenseForm onSuccess={handleRefresh} />
+      </div>
+      <div className="border-t pt-8">
+        <h2 className="text-xl font-bold mb-4">Partial Payments</h2>
+        <PartialPaymentsList key={refreshKey} onSuccess={handleRefresh} />
+      </div>
+    </div>
+  );
+};
+
+const AddExpenseForm = ({ onSuccess }: { onSuccess: () => void }) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    category: "Operational",
+    description: "",
+    date: new Date().toISOString().split("T")[0],
+    paymentType: "complete",
+    amount: "",
+    totalAmount: "",
+    paidAmount: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const categories = [
+    "Operational",
+    "Project Related",
+    "Salary",
+    "Marketing",
+    "Logistics",
+    "Others",
+  ];
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    // Validation
+    if (formData.paymentType === "partial") {
+      if (Number(formData.paidAmount) > Number(formData.totalAmount)) {
+        setMessage(
+          "Error: Paying amount cannot be more than full payment amount"
+        );
+        setLoading(false);
+        return;
+      }
+    }
+
+    try {
+      const payload = {
+        title: formData.title,
+        category: formData.category,
+        description: formData.description,
+        date: formData.date,
+        paymentType: formData.paymentType,
+        amount:
+          formData.paymentType === "complete"
+            ? formData.amount
+            : formData.paidAmount,
+        totalAmount:
+          formData.paymentType === "partial"
+            ? formData.totalAmount
+            : formData.amount,
+        isPartial: formData.paymentType === "partial",
+      };
+
+      await adminApi.post("/expenses", payload);
+      setMessage("Expense added successfully!");
+      setFormData({
+        title: "",
+        category: "Operational",
+        description: "",
+        date: new Date().toISOString().split("T")[0],
+        paymentType: "complete",
+        amount: "",
+        totalAmount: "",
+        paidAmount: "",
+      });
+      onSuccess();
+    } catch (error) {
+      console.error(error);
+      setMessage("Error adding expense");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl">
+      {message && (
+        <div
+          className={`p-4 rounded ${
+            message.includes("Error")
+              ? "bg-red-100 text-red-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block mb-1 font-medium">Title</label>
+          <input
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium">Category</label>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="block mb-1 font-medium">Description</label>
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          className="w-full border p-2 rounded"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block mb-1 font-medium">Date</label>
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium">Payment Type</label>
+          <select
+            name="paymentType"
+            value={formData.paymentType}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+          >
+            <option value="complete">Complete Payment</option>
+            <option value="partial">Partial Payment</option>
+          </select>
+        </div>
+      </div>
+
+      {formData.paymentType === "partial" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-orange-50 p-4 rounded border border-orange-200">
+          <div>
+            <label className="block mb-1 font-medium">
+              Full Payment Amount
+            </label>
+            <input
+              type="number"
+              name="totalAmount"
+              value={formData.totalAmount}
+              onChange={handleChange}
+              className="w-full border p-2 rounded"
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-1 font-medium">Now Paying Amount</label>
+            <input
+              type="number"
+              name="paidAmount"
+              value={formData.paidAmount}
+              onChange={handleChange}
+              className="w-full border p-2 rounded"
+              required
+            />
+          </div>
+        </div>
+      ) : (
+        <div>
+          <label className="block mb-1 font-medium">Amount</label>
+          <input
+            type="number"
+            name="amount"
+            value={formData.amount}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          />
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:opacity-50"
+      >
+        {loading ? "Adding..." : "Add Expense"}
+      </button>
+    </form>
+  );
+};
+
+const PartialPaymentsList = ({ onSuccess }: { onSuccess: () => void }) => {
+  const [payments, setPayments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [payMoreAmount, setPayMoreAmount] = useState<{ [key: string]: string }>(
+    {}
+  );
+
+  React.useEffect(() => {
+    fetchPartialPayments();
+  }, []);
+
+  const fetchPartialPayments = async () => {
+    try {
+      const res = await adminApi.get("/expenses");
+      // Filter locally if API doesn't support filtering yet
+      const data = res.data.expenses || res.data;
+      const partials = Array.isArray(data)
+        ? data.filter((e: any) => e.isPartial && e.paidAmount < e.totalAmount)
+        : [];
+      setPayments(partials);
+    } catch (error) {
+      console.error("Error fetching partial payments", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePayMore = async (
+    id: string,
+    currentPaid: number,
+    total: number
+  ) => {
+    const amount = Number(payMoreAmount[id]);
+    if (!amount || amount <= 0) return;
+
+    if (currentPaid + amount > total) {
+      alert("Cannot pay more than remaining amount");
+      return;
+    }
+
+    try {
+      await adminApi.put(`/expenses/${id}/pay`, { amount });
+      setPayMoreAmount({ ...payMoreAmount, [id]: "" });
+      fetchPartialPayments();
+      onSuccess();
+    } catch (error) {
+      console.error("Error updating payment", error);
+      alert("Failed to update payment");
+    }
+  };
+
+  const handleFullSettle = async (id: string, remaining: number) => {
+    if (
+      !confirm(
+        `Are you sure you want to pay the full remaining amount of ₹${remaining}?`
+      )
+    )
+      return;
+
+    try {
+      await adminApi.put(`/expenses/${id}/pay`, { amount: remaining });
+      fetchPartialPayments();
+      onSuccess();
+    } catch (error) {
+      console.error("Error settling payment", error);
+      alert("Failed to settle payment");
+    }
+  };
+
+  if (loading) return <div>Loading partial payments...</div>;
+
+  if (payments.length === 0) {
+    return <div className="text-gray-500">No pending partial payments.</div>;
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {payments.map((payment) => {
+        const remaining = payment.totalAmount - payment.paidAmount;
+        return (
+          <div
+            key={payment._id}
+            className="border rounded p-4 shadow-sm bg-white"
+          >
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="font-bold text-lg">{payment.title}</h3>
+              <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">
+                Partial
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">{payment.description}</p>
+
+            <div className="space-y-2 mb-4 text-sm">
+              <div className="flex justify-between">
+                <span>Total Amount:</span>
+                <span className="font-medium">₹{payment.totalAmount}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Paid So Far:</span>
+                <span className="font-medium text-green-600">
+                  ₹{payment.paidAmount}
+                </span>
+              </div>
+              <div className="flex justify-between border-t pt-2">
+                <span>Remaining (Payable):</span>
+                <span className="font-bold text-red-600">₹{remaining}</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  className="border p-1 rounded w-full text-sm"
+                  value={payMoreAmount[payment._id] || ""}
+                  onChange={(e) =>
+                    setPayMoreAmount({
+                      ...payMoreAmount,
+                      [payment._id]: e.target.value,
+                    })
+                  }
+                />
+                <button
+                  onClick={() =>
+                    handlePayMore(
+                      payment._id,
+                      payment.paidAmount,
+                      payment.totalAmount
+                    )
+                  }
+                  className="bg-blue-500 text-white px-3 py-1 rounded text-sm whitespace-nowrap"
+                >
+                  Pay More
+                </button>
+              </div>
+              <button
+                onClick={() => handleFullSettle(payment._id, remaining)}
+                className="w-full bg-green-500 text-white px-3 py-2 rounded text-sm"
+              >
+                Full Payment & Settle
+              </button>
+            </div>
+
+            {payment.history && payment.history.length > 0 && (
+              <div className="mt-4 pt-2 border-t">
+                <p className="text-xs font-bold text-gray-500 mb-1">
+                  Payment History
+                </p>
+                <div className="max-h-24 overflow-y-auto text-xs text-gray-600">
+                  {payment.history.map((h: any, i: number) => (
+                    <div key={i} className="flex justify-between">
+                      <span>{new Date(h.date).toLocaleDateString()}</span>
+                      <span>₹{h.amount} (Partial Payment Done)</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
   );
 };
 

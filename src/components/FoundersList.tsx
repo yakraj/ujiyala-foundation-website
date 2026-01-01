@@ -36,7 +36,7 @@ const FoundersList = ({
             {founder.bio}
           </p>
 
-          {/* <div className="flex gap-4 mt-auto">
+          <div className="flex gap-4 mt-auto">
             <a
               href={founder.linkedin || "#"}
               className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-sm"
@@ -55,7 +55,7 @@ const FoundersList = ({
             >
               <Mail size={18} />
             </a>
-          </div> */}
+          </div>
         </div>
       ))}
     </div>

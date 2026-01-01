@@ -74,7 +74,7 @@ const Volunteer = () => {
               Why Volunteer With Us?
             </h2>
             <p className="text-lg text-gray-600 mb-10 leading-relaxed">
-              Volunteering with Ujiyala Foundation is more than just giving your
+              Volunteering with <span className="ujiyala-font">Ujiyala Foundation</span> is more than just giving your
               time. It's about being part of a movement that transforms lives at
               the grassroots level.
             </p>
