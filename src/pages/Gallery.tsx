@@ -8,6 +8,7 @@ const Gallery = () => {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
+    console.log("Fetching gallery data...", loading);
     const fetchGallery = async () => {
       try {
         const API_URL =
