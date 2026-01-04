@@ -867,38 +867,42 @@ const PartialPaymentsList = ({ onSuccess }: { onSuccess: () => void }) => {
             </div>
 
             <div className="space-y-3">
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  placeholder="Amount"
-                  className="border p-1 rounded w-full text-sm"
-                  value={payMoreAmount[payment._id] || ""}
-                  onChange={(e) =>
-                    setPayMoreAmount({
-                      ...payMoreAmount,
-                      [payment._id]: e.target.value,
-                    })
-                  }
-                />
-                <button
-                  onClick={() =>
-                    handlePayMore(
-                      payment._id,
-                      payment.paidAmount,
-                      payment.totalAmount
-                    )
-                  }
-                  className="bg-blue-500 text-white px-3 py-1 rounded text-sm whitespace-nowrap"
-                >
-                  Pay More
-                </button>
-              </div>
-              <button
-                onClick={() => handleFullSettle(payment._id, remaining)}
-                className="w-full bg-green-500 text-white px-3 py-2 rounded text-sm"
-              >
-                Full Payment & Settle
-              </button>
+              {localStorage.getItem("role") === "accountant" && (
+                <>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      placeholder="Amount"
+                      className="border p-1 rounded w-full text-sm"
+                      value={payMoreAmount[payment._id] || ""}
+                      onChange={(e) =>
+                        setPayMoreAmount({
+                          ...payMoreAmount,
+                          [payment._id]: e.target.value,
+                        })
+                      }
+                    />
+                    <button
+                      onClick={() =>
+                        handlePayMore(
+                          payment._id,
+                          payment.paidAmount,
+                          payment.totalAmount
+                        )
+                      }
+                      className="bg-blue-500 text-white px-3 py-1 rounded text-sm whitespace-nowrap"
+                    >
+                      Pay More
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => handleFullSettle(payment._id, remaining)}
+                    className="w-full bg-green-500 text-white px-3 py-2 rounded text-sm"
+                  >
+                    Full Payment & Settle
+                  </button>
+                </>
+              )}
             </div>
 
             {payment.history && payment.history.length > 0 && (

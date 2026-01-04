@@ -1,5 +1,7 @@
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:4000/api/public";
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://wwl38t1g0ci6tp4hk9jv7by2f5sx8da7zq9b5vn0.ujiyalafoundation.org/api";
+const API_URL = `${BASE_URL}/public`;
 
 export const fetchStats = async () => {
   const res = await fetch(`${API_URL}/stats`);

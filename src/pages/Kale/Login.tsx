@@ -18,6 +18,9 @@ const Login = () => {
         password,
       });
       localStorage.setItem("token", res.data.token);
+      if (res.data.user?.role) {
+        localStorage.setItem("role", res.data.user.role);
+      }
       navigate("/kale");
     } catch (err) {
       setError("Invalid credentials");
